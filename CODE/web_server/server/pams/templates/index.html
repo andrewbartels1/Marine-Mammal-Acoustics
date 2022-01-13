@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="#">
+        <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.css' %}" />
+        <link rel="stylesheet" href="{% static 'lib/bootstrap-5.1.3-dist/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'lib/icons-1.3.0/font/bootstrap-icons.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="row mb-3">
+                <h2>Earth Science Project Team - <i>Passive Acoustic Monitoring</i></h2>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5>Quick Start Guide</h5>
+                    <ul>
+                        <li>Click a time listed below the map to filter for audio clips with classified sounds</li>
+                        <li>Select from the dropdowns / slide the date filter and click "Apply Filter" for additional filtering</li>
+                        <li>After filtering, click an audio clip item to play the sound</li>
+                        <li>Upload an .mp3 or a .wav file to see what your sound clip most resembles!</li>
+                        <li>All audio clips are not accessible - most clips for classification filter 'NOT unknown' exist in our demo</li>
+                        <li><strong>NOTES: Sound needs to be turned all the way up to hear the sound clips!! Click a preset filter to view interesting audio clips!</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div id="map" class="mb-4">
+                        <input type="file" hidden id="upload" accept=".wav,.mp3" />
+                        <button class="btn btn-sm btn-primary opacity-75" id="upload-btn"><i class="bi bi-upload"></i>&#09;Predict Your Audio File</button>
+                        <div id="filters" class="opacity-75">
+                            <p class="mb-1">Date: <span id="date-val"></span></p>
+                            <div id="date" class="mb-2"></div>
+                            <h6 class="text-center">Boat Filters<hr class="hr my-1" /></h6>
+                            <select id="boat" class="form-control form-control-sm mb-2">
+                                <option value="">-- Boat Type --</option>
+                                <option value="Passenger">Passenger</option>
+                                <option value="Tug Tow">Tug Tow</option>
+                                <option value="Not available">Not available</option>
+                                <option value="Other">Other</option>
+                                <option value="Pleasure Craft/Sailing">Pleasure Craft/Sailing</option>
+                                <option value="Cargo">Cargo</option>
+                                <option value="Fishing">Fishing</option>
+                                <option value="Tanker">Tanker</option>
+                                <option value="Military">Military</option>
+                            </select>
+                            <h6 class="text-center">Audio Filters<hr class="hr my-1" /></h6>
+                            <select id="classification" class="form-control form-control-sm mb-1">
+                                <option value="">-- Classification --</option>
+                                <option value="critter">critter</option>
+                                <option value="boat">boat</option>
+                                <option value="background">background</option>
+                                <option value="unknown">NOT unknown</option>
+                            </select>
+                            <select id="buoy" class="form-control form-control-sm mb-1">
+                                <option value="">-- Buoy Location --</option>
+                            </select>
+                            <button id="filter" class="btn btn-sm btn-primary mt-2">
+                                <div id="loading" class="spinner-border spinner-border-sm text-light d-none" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                                <i class="bi bi-filter"></i>&#09;Apply Filter
+                            </button>
+                        </div>
+                        <div id="legend" class="opacity-75">
+                            <h6 id="legend-header" class="text-center">Legend<hr class="hr my-1" /></h6>
+                            <p class="mb-1 Passenger">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Passenger
+                            </p>
+                            <p class="mb-1 Tug-Tow">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Tug Tow
+                            </p>
+                            <p class="mb-1 Not-available">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Not available
+                            </p>
+                            <p class="mb-1 Other">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Other
+                            </p>
+                            <p class="mb-1 Pleasure-Craft-Sailing">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Pleasure Craft/Sailing
+                            </p>
+                            <p class="mb-1 Cargo">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Cargo
+                            </p>
+                            <p class="mb-1 Fishing">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Fishing
+                            </p>
+                            <p class="mb-1 Tanker">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Tanker
+                            </p>
+                            <p class="mb-1 Military">
+                                <svg viewBox="0 0 512 512" class="legend-boat"><path d="M410.866,181.063A32.1,32.1,0,0,0,380.793,160H341.554l-16-96H221.112l16,96H197.554l-16-96H77.112l16,96H48v88H16V448H443.727L496,282.466V248H435.207ZM298.446,96l10.667,64H269.554L258.888,96Zm-144,0,10.667,64H125.554L114.888,96ZM80,192H380.793l20.363,56H80Zm383.222,88L420.273,416H48V280Z"></path></svg>
+                                Military
+                            </p>
+                        </div>
+                    </div>
+            
+                    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel">Match found!</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="results"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-9">
+                    <div id="quick-dates">
+                        <h5>Click a preset filter below to hear something interesting!</h5>
+                    </div>
+                    <div id="waveform" class="mt-3"></div>
+                    <div id="wave-spectrogram"></div>
+                    <div class="text-center">
+                        <button id="play" class="btn btn-sm btn-primary mt-2 d-none"><i class="bi bi-play-circle"></i>&#09;play / <i class="bi bi-pause-circle"></i>&#09;pause</button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <h6>Audio Clips</h6>
+                    <div id="audio-clips" class="border p-2">
+                        <p>Apply a filter to search for audio clips!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <hr />
+            <div class="px-4">
+                <p>Creators: Andrew Bartels, Gabe Shindnes, Hunter Clark, Jeff Louie, Jessie Gorges</p>
+            </div>
+        </div>
+
+        <script src="{% static 'lib/jquery-3.6.0/jquery.min.js' %}"></script>
+        <script src="{% static 'lib/jquery-ui/jquery-ui.js' %}"></script>
+        <script src="{% static 'lib/bootstrap-5.1.3-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'lib/d3/d3.v5.min.js' %}"></script>
+        <script src="{% static 'lib/d3/d3-array.min.js' %}"></script>
+        <script src="{% static 'lib/d3/d3-geo-projection.v2.min.js' %}"></script>
+        <script src="{% static 'lib/wavesurfer-5.2.0/wavesurfer.js' %}"></script>
+        <script src="{% static 'lib/wavesurfer-5.2.0/wavesurfer.spectrogram.js' %}"></script>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>

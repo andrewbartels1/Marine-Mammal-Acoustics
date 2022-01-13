@@ -1,0 +1,19 @@
+version: "3.9"
+   
+services:
+  server:
+    build:
+      context: .
+      dockerfile: dockerfile-server
+    command: >
+      sh -c "python manage.py makemigrations pams
+             python manage.py migrate
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./server:/app
+      - ../to_process:/app/to_process
+      - ../database:/app/database
+      - ../audio_clips:/app/pams/static/audio
+      
+    ports:
+      - "8000:8000"

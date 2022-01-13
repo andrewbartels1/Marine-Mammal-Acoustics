@@ -1,0 +1,107 @@
+#audio-clips {
+    height: 450px;
+    overflow-y: auto;
+}
+
+#footer {
+    height: 100px;
+}
+
+#map {
+    position: relative;
+    width: 1100px;
+    height: 500px;
+}
+
+#upload-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#world {
+    background-color: lightblue;
+}
+
+#filters {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    width: 175px;
+    background-color: lightgray;
+}
+
+#legend {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    width: 190px;
+    background-color: black;
+    font-size: 14px;
+}
+
+#legend-header {
+    color: white;
+}
+
+.boat {
+    stroke: black;
+    stroke-width: .06px;
+    stroke-opacity: .6;
+    fill: #7570b3;
+    fill-opacity: .75;
+}
+
+.legend-boat {
+    height: 20px;
+    width: 20px;
+}
+
+.Passenger {
+    fill: #33a02c;
+    color: #33a02c;
+}
+.Tug-Tow {
+    fill: #fb9a99;
+    color: #fb9a99;
+}
+.Not-available {
+    fill: #e31a1c;
+    color: #e31a1c;
+}
+.Other {
+    fill: #fdbf6f;
+    color: #fdbf6f;
+}
+.Pleasure-Craft-Sailing {
+    fill: #ff7f00;
+    color: #ff7f00;
+}
+.Cargo {
+    fill: #cab2d6;
+    color: #cab2d6;
+}
+.Fishing {
+    fill: #6a3d9a;
+    color: #6a3d9a;
+}
+.Tanker {
+    fill: #ffff99;
+    color: #ffff99;
+}
+.Military {
+    fill: #b15928;
+    color: #b15928;
+}
+
+.buoy {
+    stroke: black;
+    stroke-width: .06px;
+    fill: black;
+}
+
+.audio-clip:hover, .quick-date:hover {
+    cursor: pointer;
+}

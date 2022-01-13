@@ -1,0 +1,16 @@
+audiotools==0.1.0
+librosa==0.8.1
+matplotlib==3.4.3
+numpy==1.21.2
+pydub==0.25.1
+scikit_maad==1.2
+SoundFile==0.10.3.post1
+tensorboard==2.7.0
+tensorboard-data-server==0.6.1
+tensorboard-plugin-wit==1.8.0
+tensorflow==2.7.0
+tensorflow-estimator==2.7.0
+tensorflow-io-gcs-filesystem==0.22.0
+wavfile=2.2.0
+scipy=1.7.2
+keras=2.7.0

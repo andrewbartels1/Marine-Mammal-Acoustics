@@ -1,0 +1,31 @@
+from django.db import models
+
+class AudioClip(models.Model):
+    label = models.CharField(max_length=255)
+    min_y = models.BigIntegerField(blank=True, null=True)
+    min_x = models.BigIntegerField(blank=True, null=True)
+    max_y = models.BigIntegerField(blank=True, null=True)
+    max_x = models.BigIntegerField(blank=True, null=True)
+    min_f = models.FloatField(blank=True, null=True)
+    min_t = models.FloatField(blank=True, null=True)
+    max_f = models.FloatField(blank=True, null=True)
+    max_t = models.FloatField(blank=True, null=True)
+    centroid_y = models.FloatField(blank=True, null=True)
+    centroid_x = models.FloatField(blank=True, null=True)
+    duration_x = models.FloatField(blank=True, null=True)
+    bandwidth_y = models.FloatField(blank=True, null=True)
+    area_xy = models.BigIntegerField(blank=True, null=True)
+    centroid_f = models.FloatField(blank=True, null=True)
+    centroid_t = models.FloatField(blank=True, null=True)
+    duration_t = models.FloatField(blank=True, null=True)
+    bandwidth_f = models.FloatField(blank=True, null=True)
+    area_tf = models.FloatField(blank=True, null=True)
+    audio_path = models.CharField(max_length=255)
+    chip_start_seconds = models.DateTimeField(blank=True, null=True)
+    chip_end_seconds = models.DateTimeField(blank=True, null=True)
+    sensor_platform = models.CharField(max_length=255)
+    lat = models.FloatField(blank=True, null=True)
+    long = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        app_label = 'pams'
