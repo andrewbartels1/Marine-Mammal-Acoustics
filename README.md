@@ -20,6 +20,7 @@ Our project is a state-of-the-art application that combines a variety of data an
 	- audio_clips: https://www.dropbox.com/sh/n4wccfir3yzyd7f/AAB_7-BWbgsO0olrfeR961Pca?dl=0
 
 * unzip them and place them in folders to match the below example:
+```bash
 CODE/
 ├── audio_clips <-- unzipped and placed from Dropbox link above!!
 │   ├── background
@@ -42,7 +43,7 @@ CODE/
     ├── requirements.txt
     ├── server
     └── WorkingWithAudioData.py
-
+```
 * run the below `make` commands to spin up the server or run a sample data pipeline (demo)
 * the server will use localhost:8000 by default on the browser of your choice
 
